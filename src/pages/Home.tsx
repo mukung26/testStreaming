@@ -26,7 +26,7 @@ export function Home() {
       try {
         const data = await getDiscover(currentType, 1);
         if (mounted) {
-          setItems(data.results);
+          setItems(Array.isArray(data?.results) ? data.results : []);
           setPage(1);
         }
       } catch (err: any) {
@@ -50,7 +50,7 @@ export function Home() {
     try {
       const nextPage = page + 1;
       const data = await getDiscover(currentType, nextPage);
-      setItems(prev => [...prev, ...data.results]);
+      setItems(prev => [...(prev || []), ...(Array.isArray(data?.results) ? data.results : [])]);
       setPage(nextPage);
     } catch (err) {
       console.error(err);
@@ -59,7 +59,7 @@ export function Home() {
     }
   };
 
-  const heroItem = items.length > 0 ? items[0] : null;
+  const heroItem = items && items.length > 0 ? items[0] : null;
 
   return (
     <div className="flex flex-col gap-6 bg-[#0A0A0B]">
@@ -124,7 +124,7 @@ export function Home() {
               className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4"
             >
               <AnimatePresence mode="popLayout">
-                {items.slice(1).map((item, index) => (
+                {(items || []).slice(1).map((item, index) => (
                   <MediaCard key={`${item.id}-${index}`} item={item} type={currentType} />
                 ))}
               </AnimatePresence>

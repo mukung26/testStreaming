@@ -93,7 +93,7 @@ export function Details() {
             }}
           />
           <div className="absolute top-3 left-3">
-             <div className="text-[10px] font-bold bg-yellow-500 text-black px-1.5 py-0.5 rounded-sm inline-block uppercase">IMDb {details.vote_average.toFixed(1)}</div>
+             <div className="text-[10px] font-bold bg-yellow-500 text-black px-1.5 py-0.5 rounded-sm inline-block uppercase">IMDb {details.vote_average?.toFixed(1) || 'N/A'}</div>
           </div>
         </motion.div>
 

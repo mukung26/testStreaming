@@ -30,8 +30,8 @@ export function Search() {
         
         if (mounted) {
           const combined = [
-            ...(moviesRes.results || []).map((m: any) => ({ ...m, media_type: 'movie' })),
-            ...(tvRes.results || []).map((t: any) => ({ ...t, media_type: 'tv' }))
+            ...(Array.isArray(moviesRes?.results) ? moviesRes.results : []).map((m: any) => ({ ...m, media_type: 'movie' })),
+            ...(Array.isArray(tvRes?.results) ? tvRes.results : []).map((t: any) => ({ ...t, media_type: 'tv' }))
           ];
           
           combined.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));

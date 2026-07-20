@@ -32,7 +32,7 @@ export function MediaCard({ item, type }: MediaCardProps) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
         <div className="absolute bottom-3 left-3 right-3">
-          <div className="text-[10px] font-bold bg-yellow-500 text-black px-1.5 py-0.5 rounded-sm mb-1.5 inline-block uppercase">IMDb {item.vote_average.toFixed(1)}</div>
+          <div className="text-[10px] font-bold bg-yellow-500 text-black px-1.5 py-0.5 rounded-sm mb-1.5 inline-block uppercase">IMDb {item.vote_average?.toFixed(1) || 'N/A'}</div>
           <div className="text-xs font-bold uppercase truncate text-white">{title}</div>
         </div>
       </Link>

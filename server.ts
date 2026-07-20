@@ -21,6 +21,8 @@ async function startServer() {
       if (endpoint.includes('/trending/')) return (await import('./mockData.js')).trendingMovies;
       if (endpoint.includes('/search/tv')) return (await import('./mockData.js')).trendingTvShows;
       if (endpoint.includes('/search/')) return (await import('./mockData.js')).trendingMovies;
+      if (endpoint.includes('/discover/tv')) return (await import('./mockData.js')).trendingTvShows;
+      if (endpoint.includes('/discover/')) return (await import('./mockData.js')).trendingMovies;
       if (endpoint.includes('/season/')) return (await import('./mockData.js')).mockSeason();
       if (endpoint.match(/\/(movie|tv)\/\d+/)) {
          const type = endpoint.includes('/tv/') ? 'tv' : 'movie';

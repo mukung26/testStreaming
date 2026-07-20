@@ -1,0 +1,6 @@
+{
+  "name": "VidStream",
+  "description": "A streaming website for movies and TV shows.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

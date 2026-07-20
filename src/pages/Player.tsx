@@ -9,7 +9,7 @@ export function Player() {
   const [details, setDetails] = useState<any>(null);
   const [seasonData, setSeasonData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [server, setServer] = useState<'vidlink' | 'embedsu' | 'vidsrc'>('vidlink');
+  const [server, setServer] = useState<'vidlink' | 'multiembed' | 'superembed' | 'vidsrcnet' | 'embedsu' | 'vidsrc'>('vidlink');
 
   useEffect(() => {
     if (!type || !id) return;
@@ -38,16 +38,20 @@ export function Player() {
 
   // Using different servers to bypass ads and errors
   const getEmbedUrl = () => {
-    if (server === 'vidlink') {
-      if (type === 'movie') return `https://vidlink.pro/movie/${id}`;
-      return `https://vidlink.pro/tv/${id}/${season}/${episode}`;
-    } else if (server === 'embedsu') {
-      if (type === 'movie') return `https://embed.su/embed/movie/${id}`;
-      return `https://embed.su/embed/tv/${id}/${season}/${episode}`;
-    } else {
-      // Fallback
-      if (type === 'movie') return `https://vidsrc.to/embed/movie/${id}`;
-      return `https://vidsrc.to/embed/tv/${id}/${season}/${episode}`;
+    switch (server) {
+      case 'vidlink':
+        return type === 'movie' ? `https://vidlink.pro/movie/${id}` : `https://vidlink.pro/tv/${id}/${season}/${episode}`;
+      case 'vidsrcnet':
+        return type === 'movie' ? `https://vidsrc.net/embed/movie?tmdb=${id}` : `https://vidsrc.net/embed/tv?tmdb=${id}&season=${season}&episode=${episode}`;
+      case 'multiembed':
+        return type === 'movie' ? `https://multiembed.mov/?video_id=${id}&tmdb=1` : `https://multiembed.mov/?video_id=${id}&tmdb=1&s=${season}&e=${episode}`;
+      case 'superembed':
+        return type === 'movie' ? `https://multiembed.mov/direct/superembed/movie/${id}` : `https://multiembed.mov/direct/superembed/tv/${id}/${season}/${episode}`;
+      case 'embedsu':
+        return type === 'movie' ? `https://embed.su/embed/movie/${id}` : `https://embed.su/embed/tv/${id}/${season}/${episode}`;
+      default:
+        // vidsrc (fallback)
+        return type === 'movie' ? `https://vidsrc.to/embed/movie/${id}` : `https://vidsrc.to/embed/tv/${id}/${season}/${episode}`;
     }
   };
 
@@ -78,12 +82,15 @@ export function Player() {
         <div className="flex items-center gap-4">
           <select 
             value={server}
-            onChange={(e) => setServer(e.target.value as 'vidlink' | 'embedsu' | 'vidsrc')}
+            onChange={(e) => setServer(e.target.value as any)}
             className="bg-[#1A1A1C] text-[10px] font-bold uppercase tracking-widest text-white px-3 py-1.5 border border-white/10 outline-none focus:border-blue-500 cursor-pointer"
           >
-            <option value="vidlink">Server 1 (Ad-Free)</option>
-            <option value="embedsu">Server 2 (Backup)</option>
-            <option value="vidsrc">Server 3 (Vidsrc)</option>
+            <option value="vidlink">Server 1 (Ad-Free/VidLink)</option>
+            <option value="multiembed">Server 2 (Ad-Free/MultiEmbed)</option>
+            <option value="superembed">Server 3 (Ad-Free/SuperEmbed)</option>
+            <option value="embedsu">Server 4 (Embed.su)</option>
+            <option value="vidsrcnet">Server 5 (Vidsrc.net)</option>
+            <option value="vidsrc">Server 6 (Vidsrc.to)</option>
           </select>
         </div> {/* Spacer */}
       </nav>

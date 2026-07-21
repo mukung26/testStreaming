@@ -5,6 +5,7 @@ import type { MediaItem } from '../types';
 import { MediaCard } from '../components/MediaCard';
 import { motion, AnimatePresence } from 'motion/react';
 import { Loader2 } from 'lucide-react';
+import { getHistory, HistoryItem } from '../lib/storage';
 
 export function Home() {
   const [searchParams] = useSearchParams();
@@ -12,10 +13,15 @@ export function Home() {
   const currentType = typeParam === 'tv' ? 'tv' : typeParam === 'anime' ? 'anime' : 'movie';
   
   const [items, setItems] = useState<MediaItem[]>([]);
+  const [history, setHistory] = useState<HistoryItem[]>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setHistory(getHistory().filter(h => h.type === (currentType === 'anime' ? 'tv' : currentType) || (currentType === 'anime' && h.type === 'anime')));
+  }, [currentType]);
 
   useEffect(() => {
     let mounted = true;
@@ -102,6 +108,20 @@ export function Home() {
       </div>
 
       <div className="p-4 sm:p-8 sm:pt-2 flex flex-col gap-6">
+        {history.length > 0 && (
+          <div className="mb-8">
+            <h2 className="text-base sm:text-lg font-bold uppercase tracking-widest flex items-center gap-3 text-white mb-6">
+              <span className="w-1 h-5 sm:h-6 bg-blue-600"></span>
+              Continue Watching
+            </h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6">
+              {history.slice(0, 6).map((item, index) => (
+                <MediaCard key={`history-${item.id}-${index}`} item={item as any} type={item.type === 'anime' ? 'tv' : item.type} />
+              ))}
+            </div>
+          </div>
+        )}
+
         <div className="flex items-center justify-between">
           <h2 className="text-base sm:text-lg font-bold uppercase tracking-widest flex items-center gap-3 text-white">
             <span className="w-1 h-5 sm:h-6 bg-blue-600"></span>

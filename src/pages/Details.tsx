@@ -20,6 +20,16 @@ export function Details() {
         const data = await getDetails(type, id);
         if (mounted) {
           setDetails(data);
+          import('../lib/storage').then(({ addToHistory }) => {
+             addToHistory({
+               id: data.id,
+               title: data.title || data.name,
+               poster_path: data.poster_path,
+               type: type as any,
+               timestamp: Date.now(),
+               vote_average: data.vote_average
+             });
+          });
         }
       } catch (err: any) {
         if (mounted) {

@@ -9,7 +9,13 @@ export function Player() {
   const [details, setDetails] = useState<any>(null);
   const [seasonData, setSeasonData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [server, setServer] = useState<'vidlink' | 'multiembed' | 'superembed' | 'embedsu' | 'autoembed' | 'smashystream'>('vidlink');
+  const [server, setServer] = useState<'vidlink' | 'multiembed' | 'superembed' | 'embedsu' | 'autoembed' | 'smashystream'>(
+    (localStorage.getItem('vidsphere_server') as any) || 'vidlink'
+  );
+
+  useEffect(() => {
+    localStorage.setItem('vidsphere_server', server);
+  }, [server]);
 
   useEffect(() => {
     if (!type || !id) return;

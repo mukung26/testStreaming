@@ -54,10 +54,10 @@ export function Search() {
   }, [query]);
 
   return (
-    <div className="p-8 pt-8 flex flex-col gap-6 min-h-screen bg-[#0A0A0B]">
+    <div className="p-4 md:p-8 pt-4 md:pt-8 flex flex-col gap-6 min-h-screen bg-[#0A0A0B]">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-bold uppercase tracking-widest flex items-center gap-3 text-white">
-          <span className="w-1 h-6 bg-blue-600"></span>
+        <h2 className="text-base sm:text-lg font-bold uppercase tracking-widest flex items-center gap-3 text-white">
+          <span className="w-1 h-5 sm:h-6 bg-blue-600"></span>
           Search Results for "{query}"
         </h2>
       </div>

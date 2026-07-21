@@ -61,18 +61,18 @@ export function Player() {
   return (
     <div className="h-screen bg-[#0A0A0B] text-white flex flex-col font-sans overflow-hidden">
       {/* Top Navigation */}
-      <nav className="h-16 flex-shrink-0 flex items-center justify-between px-8 border-b border-white/5 bg-[#0D0D0E]">
-        <div className="flex items-center gap-10">
+      <nav className="h-16 flex-shrink-0 flex items-center justify-between px-4 md:px-8 border-b border-white/5 bg-[#0D0D0E]">
+        <div className="flex items-center gap-4 md:gap-10">
           <button 
             onClick={() => navigate(-1)}
-            className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors uppercase font-bold text-xs tracking-widest"
+            className="flex items-center gap-1 md:gap-2 text-gray-400 hover:text-white transition-colors uppercase font-bold text-[10px] md:text-xs tracking-widest"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path></svg>
-            Back
+            <span className="hidden sm:inline">Back</span>
           </button>
         </div>
-        <div className="flex items-center gap-2 font-bold text-sm tracking-widest uppercase text-white truncate max-w-xl">
-           <span className="w-1 h-4 bg-blue-600 mr-2 inline-block"></span>
+        <div className="flex items-center gap-2 font-bold text-[10px] sm:text-xs md:text-sm tracking-widest uppercase text-white truncate max-w-[120px] sm:max-w-xs md:max-w-xl mx-2">
+           <span className="w-1 h-3 sm:h-4 bg-blue-600 mr-1 sm:mr-2 inline-block"></span>
            {title}
            {type === 'tv' && (
              <span className="text-blue-500 ml-2">
@@ -80,11 +80,11 @@ export function Player() {
              </span>
            )}
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
           <select 
             value={server}
             onChange={(e) => setServer(e.target.value as any)}
-            className="bg-[#1A1A1C] text-[10px] font-bold uppercase tracking-widest text-white px-3 py-1.5 border border-white/10 outline-none focus:border-blue-500 cursor-pointer"
+            className="bg-[#1A1A1C] text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-white px-2 md:px-3 py-1.5 border border-white/10 outline-none focus:border-blue-500 cursor-pointer w-24 sm:w-auto truncate"
           >
             <option value="vidlink">Server 1 (VidLink)</option>
             <option value="multiembed">Server 2 (MultiEmbed)</option>
@@ -104,6 +104,7 @@ export function Player() {
             className="w-full h-full border-0"
             allowFullScreen
             allow="autoplay; fullscreen"
+            sandbox="allow-scripts allow-same-origin allow-presentation"
             title="Video Player"
           ></iframe>
         </div>

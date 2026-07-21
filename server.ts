@@ -92,11 +92,14 @@ async function startServer() {
   app.get("/api/discover/:type", async (req, res) => {
     try {
       const { type } = req.params;
-      const { genre, page = 1 } = req.query;
+      const { genre, page = 1, lang } = req.query;
       
       const params: any = { page };
       if (genre) {
           params.with_genres = genre;
+      }
+      if (lang) {
+          params.with_original_language = lang;
       }
       const data = await fetchFromTMDB(`/discover/${type}`, params);
       res.json(data);

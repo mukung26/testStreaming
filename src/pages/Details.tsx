@@ -63,7 +63,7 @@ export function Details() {
   return (
     <div className="relative min-h-[calc(100vh-104px)] bg-[#0A0A0B] text-white flex flex-col">
       {/* Backdrop */}
-      <div className="absolute inset-0 h-[60vh] w-full z-0 flex-shrink-0">
+      <div className="absolute inset-0 h-[50vh] md:h-[60vh] w-full z-0 flex-shrink-0">
         <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0B] via-[#0A0A0B]/60 to-transparent z-10" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0B] via-[#0A0A0B]/80 to-transparent z-10" />
         <img
@@ -76,13 +76,13 @@ export function Details() {
         />
       </div>
 
-      <div className="relative z-20 flex-1 px-8 pt-32 pb-12 flex flex-col md:flex-row gap-8 lg:gap-12 items-start">
+      <div className="relative z-20 flex-1 px-4 md:px-8 pt-24 sm:pt-32 pb-12 flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-12 items-center md:items-start">
         
         {/* Poster */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="w-64 flex-shrink-0 aspect-[2/3] bg-[#1A1A1C] border border-white/5 relative mx-auto md:mx-0 overflow-hidden shadow-2xl"
+          className="w-40 sm:w-56 md:w-64 flex-shrink-0 aspect-[2/3] bg-[#1A1A1C] border border-white/5 relative mx-auto md:mx-0 overflow-hidden shadow-2xl"
         >
           <img
             src={getImageUrl(details.poster_path)}
@@ -101,25 +101,25 @@ export function Details() {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex-1 flex flex-col gap-4 mt-4 md:mt-0 max-w-3xl"
+          className="flex-1 flex flex-col gap-3 md:gap-4 mt-4 md:mt-0 max-w-3xl w-full text-center md:text-left"
         >
-          <div className="flex items-center gap-2 text-blue-400 font-bold text-xs uppercase tracking-[0.3em]">
+          <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 text-blue-400 font-bold text-[10px] md:text-xs uppercase tracking-[0.2em] md:tracking-[0.3em]">
             <span className="bg-blue-400/10 px-2 py-0.5 border border-blue-400/20">{type === 'movie' ? 'Movie' : 'TV Show'}</span>
             {year && <span>• {year}</span>}
             {runtime > 0 && <span>• {runtime} MIN</span>}
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase leading-tight text-white mb-2">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase leading-tight text-white mb-1 md:mb-2">
             {title}
           </h1>
           
           {details.tagline && (
-            <p className="text-sm font-bold uppercase tracking-widest text-gray-500 mb-2 border-l-2 border-blue-600 pl-3">
+            <p className="text-xs md:text-sm font-bold uppercase tracking-widest text-gray-500 mb-2 md:border-l-2 border-blue-600 md:pl-3">
               "{details.tagline}"
             </p>
           )}
 
-          <div className="mb-4 flex flex-wrap gap-2">
+          <div className="mb-4 flex flex-wrap justify-center md:justify-start gap-2">
             {details.genres?.map((g: any) => (
               <span key={g.id} className="px-2 py-1 bg-white/5 border border-white/10 text-gray-300 text-[10px] font-bold uppercase tracking-widest">
                 {g.name}
@@ -127,14 +127,14 @@ export function Details() {
             ))}
           </div>
 
-          <div className="mb-6">
-            <h3 className="text-xs font-bold uppercase tracking-widest text-blue-500 mb-2">Overview</h3>
-            <p className="text-gray-400 text-sm leading-relaxed">
+          <div className="mb-4 md:mb-6">
+            <h3 className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-blue-500 mb-1 md:mb-2">Overview</h3>
+            <p className="text-gray-400 text-xs md:text-sm leading-relaxed text-left">
               {details.overview || 'No overview available.'}
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-4 mt-2">
+          <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mt-2">
               {type === 'movie' ? (
                 <Link
                   to={`/player/movie/${id}`}

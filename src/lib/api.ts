@@ -31,12 +31,25 @@ export const getTrending = async (type: 'movie' | 'tv' = 'movie', timeWindow: 'd
   return validateData(data);
 };
 
-export const getDiscover = async (type: 'movie' | 'tv' = 'movie', page = 1) => {
+export const getDiscover = async (type: 'movie' | 'tv' | 'anime' = 'movie', page = 1) => {
+  const isAnime = type === 'anime';
+  const endpointType = isAnime ? 'tv' : type;
+  
   if (API_KEY) {
-    const { data } = await api.get<TMDBResponse<MediaItem>>(`/discover/${type}`, { params: getParams({ page }) });
+    const params: any = { page };
+    if (isAnime) {
+      params.with_genres = '16';
+      params.with_original_language = 'ja';
+    }
+    const { data } = await api.get<TMDBResponse<MediaItem>>(`/discover/${endpointType}`, { params: getParams(params) });
     return validateData(data);
   }
-  const { data } = await api.get<TMDBResponse<MediaItem>>(`/discover/${type}?page=${page}`);
+  
+  let queryStr = `page=${page}`;
+  if (isAnime) {
+    queryStr += `&genre=16&lang=ja`;
+  }
+  const { data } = await api.get<TMDBResponse<MediaItem>>(`/discover/${endpointType}?${queryStr}`);
   return validateData(data);
 };
 

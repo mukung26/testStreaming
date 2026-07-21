@@ -110,7 +110,6 @@ export function Player() {
             className="w-full h-full border-0"
             allowFullScreen
             allow="autoplay; fullscreen"
-            sandbox="allow-scripts allow-same-origin allow-presentation"
             title="Video Player"
           ></iframe>
         </div>

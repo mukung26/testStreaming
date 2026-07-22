@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Search, Menu, X } from 'lucide-react';
+import { Search, Menu, X, Coffee } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 export function Navbar() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isKofiModalOpen, setIsKofiModalOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -55,7 +56,13 @@ export function Navbar() {
               placeholder="Search titles..."
             />
           </form>
-          <div className="hidden md:block w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 to-purple-500 flex-shrink-0"></div>
+          <button
+            onClick={() => setIsKofiModalOpen(true)}
+            className="hidden md:flex items-center gap-2 bg-[#13C3FF] text-white px-4 py-1.5 rounded-full font-bold text-xs uppercase tracking-wider hover:bg-[#2DD0FF] transition-colors flex-shrink-0"
+          >
+            <Coffee className="w-4 h-4" />
+            <span>Support on Ko-fi</span>
+          </button>
           
           <button 
             className="sm:hidden text-gray-300 hover:text-white p-2 ml-auto"
@@ -92,6 +99,35 @@ export function Navbar() {
              <Link onClick={() => setIsMobileMenuOpen(false)} to="/?type=anime" className={`transition-colors py-3 px-4 rounded-md ${type === 'anime' && location.pathname === '/' ? 'text-white bg-[#1A1A1C] border-l-2 border-blue-600' : 'hover:text-white hover:bg-[#1A1A1C] border-l-2 border-transparent'}`}>
                Anime
              </Link>
+             <button
+               onClick={() => {
+                 setIsMobileMenuOpen(false);
+                 setIsKofiModalOpen(true);
+               }}
+               className="flex items-center justify-center gap-2 bg-[#13C3FF] text-white py-3 px-4 rounded-md font-bold uppercase tracking-wider hover:bg-[#2DD0FF] transition-colors mt-2 w-full"
+             >
+               <Coffee className="w-5 h-5" />
+               <span>Support on Ko-fi</span>
+             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Ko-fi Modal */}
+      {isKofiModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+          <div className="relative w-full max-w-md bg-[#F5F5F5] rounded-2xl overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+            <button
+              onClick={() => setIsKofiModalOpen(false)}
+              className="absolute top-3 right-3 z-10 p-1.5 bg-black/10 hover:bg-black/20 text-gray-800 rounded-full transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <iframe
+              src="https://ko-fi.com/mu_kong/?hidefeed=true&widget=true&embed=true&preview=true"
+              className="w-full border-none h-[700px] max-h-[85vh] bg-[#F5F5F5]"
+              title="Support on Ko-fi"
+            />
           </div>
         </div>
       )}

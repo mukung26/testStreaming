@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Search, Menu, X, Coffee } from 'lucide-react';
 import { cn } from '../lib/utils';
@@ -9,6 +9,17 @@ export function Navbar() {
   const [isKofiModalOpen, setIsKofiModalOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    if (isMobileMenuOpen || isKofiModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen, isKofiModalOpen]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,7 +41,7 @@ export function Navbar() {
             <span className="inline text-xl font-bold tracking-tight uppercase text-white">VidSphere</span>
           </Link>
           
-          <div className="hidden sm:flex gap-4 md:gap-8 text-xs md:text-sm font-medium text-gray-400 uppercase tracking-widest">
+          <div className="hidden md:flex gap-4 md:gap-8 text-xs md:text-sm font-medium text-gray-400 uppercase tracking-widest">
              <Link to="/?type=movie" className={`transition-colors whitespace-nowrap ${type === 'movie' && location.pathname === '/' ? 'text-white border-b-2 border-blue-600 pb-1' : 'hover:text-white'}`}>
                Movies
              </Link>
@@ -44,7 +55,7 @@ export function Navbar() {
         </div>
 
         <div className="flex flex-1 max-w-md ml-2 md:ml-4 items-center justify-end gap-2 md:gap-6">
-          <form onSubmit={handleSearch} className="relative w-full max-w-[240px] hidden sm:block">
+          <form onSubmit={handleSearch} className="relative w-full max-w-[240px] hidden md:block">
             <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
               <Search className="h-4 w-4 text-gray-500" />
             </div>
@@ -65,7 +76,7 @@ export function Navbar() {
           </button>
           
           <button 
-            className="sm:hidden text-gray-300 hover:text-white p-2 ml-auto"
+            className="md:hidden text-gray-300 hover:text-white p-2 ml-auto"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -75,7 +86,7 @@ export function Navbar() {
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div className="sm:hidden fixed inset-0 top-16 bg-[#0D0D0E] z-40 p-4 flex flex-col gap-6 overflow-y-auto">
+        <div className="md:hidden fixed inset-0 top-16 bg-[#0D0D0E] z-40 p-4 flex flex-col gap-6 overflow-y-auto">
           <form onSubmit={handleSearch} className="relative w-full">
             <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
               <Search className="h-4 w-4 text-gray-500" />
@@ -125,7 +136,7 @@ export function Navbar() {
             </button>
             <iframe
               src="https://ko-fi.com/mu_kong/?hidefeed=true&widget=true&embed=true&preview=true"
-              className="w-full border-none h-[700px] max-h-[85vh] bg-[#F5F5F5]"
+              className="w-full border-none h-[700px] max-h-[95dvh] bg-[#F5F5F5]"
               title="Support on Ko-fi"
             />
           </div>
